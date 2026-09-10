@@ -20,6 +20,7 @@ already known-broken is listed, and half of it has a fix in flight.
 | [memory-backends-playbook.md](memory-backends-playbook.md) | seeing your memories in each provider's own console |
 | [benchmarks.md](benchmarks.md) | what has been measured, and how |
 | [integrations.md](integrations.md) | voice, Telegram, Apple, Google Calendar, MCP — all opt-in |
+| [hosted-architecture.md](hosted-architecture.md) | serving many people from one deployment — a draft design, nothing built |
 
 ## Write-ups — one topic, explained
 
