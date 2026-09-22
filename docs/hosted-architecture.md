@@ -5,7 +5,8 @@ the spec and the implementation plan are generated from it in a separate step.
 Appendix A is the decision log: what changed along the way and what is now
 superseded, so that step does not bring it back.
 
-This revision replaces the first one (commit `ee3251a` on this branch), which
+This revision replaces the first one (commit `ee3251a` in `IonZhao/waku-agent`,
+PR #1), which
 designed a single process serving every tenant. Narrowing the MVP to "the
 dashboard, unmodified" changed that answer; §4.4 explains why, with measurements.
 
@@ -51,6 +52,8 @@ Non-goals for the MVP:
 - a new frontend
 
 ## 3. What in waku is single-user today
+
+Paths are in the `waku-agent` source, version 0.1.6.
 
 | Assumption | Where |
 |---|---|
@@ -130,7 +133,7 @@ Considered:
   revision of this doc).
 - **B.** Each active tenant gets a stock waku process in its own container.
 
-**Chosen: B.** Measured on waku 0.1.6 in this repository:
+**Chosen: B.** Measured on waku 0.1.6:
 
 - **The dashboard is where waku keeps most of its per-process state (§3).** In A,
   every global has to become tenant-aware: 16 references in `dashboard.py`, plus
@@ -161,7 +164,7 @@ Considered:
 A still wins on density: thousands of mostly idle tenants, and exact per-turn
 control inside one process. If memory ever becomes the binding constraint, A is
 the upgrade path. Its full sketch, a `TenantPool` that compiles against waku,
-is in commit `ee3251a`.
+is in commit `ee3251a` of `IonZhao/waku-agent`.
 
 ### 4.5 Login: Supabase Auth, then a gateway cookie
 
@@ -371,7 +374,8 @@ instead of breaking.
 Routes not in the table pass by default. Isolation does not depend on this table,
 because the container provides it. A new upstream route cannot break isolation;
 at worst it spends that tenant's own quota. On each waku upgrade, diff the pinned
-route list in `evals/deterministic/test_dashboard_routes.py` and review what changed.
+route list in waku's `evals/deterministic/test_dashboard_routes.py` and review
+what changed.
 
 What differs in the frontend: the gateway serves the login page and `/account`
 (logout, free-tier status, time zone, "back to free tier"). The stock static
